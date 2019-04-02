@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
+from .serializers import PostSerializer
+from rest_framework import generics
+
 def posts_list(request):
 	posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('published_date')
 	return render(request, 'blog/mainPage.html', {'posts' : posts})
@@ -89,3 +92,21 @@ def remove_comment(request, pk):
 	comment = get_object_or_404(Comment, pk=pk)
 	comment.delete()
 	return redirect('post_detail', pk=comment.post.pk)
+
+
+#### REST FRAMEWORK API VIEWS:
+class ListPostView(generics.ListAPIView):
+	queryset = Post.objects.all()
+	serializer_class = PostSerializer
+
+class SinglePostView(generics.RetrieveAPIView ):
+	queryset = Post.objects.filter()
+	serializer_class = PostSerializer
+
+class DestroyPostView(generics.DestroyAPIView):
+	#queryset = Post.objects.filter()
+	serializer_class = PostSerializer
+
+class AddPostView(generics.CreateAPIView):
+	queryset = Post.objects.all()
+	serializer_class = PostSerializer

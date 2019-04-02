@@ -13,6 +13,11 @@ urlpatterns = [
 	path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
 	path('comment/<int:pk>/remove/', views.remove_comment, name="remove_comment"),
 	path('comment/<int:pk>/approve/', views.approve_comment, name="approve_comment"),
-	path('comment/<int:pk>/desapprove/', views.desapprove_comment, name="desapprove_comment")
+	path('comment/<int:pk>/desapprove/', views.desapprove_comment, name="desapprove_comment"),
+	
+	path('api/posts/', views.ListPostView.as_view(), name="api_post_list"),
+	path('api/post/<int:pk>/', views.SinglePostView.as_view(), name="api_post_detail"),
+	path('api/post/<int:pk>/remove/', views.DestroyPostView.as_view(), name="api_post_list"),
+	path('api/add-post/', views.AddPostView.as_view(), name="api_post_list"),
 
 ]
