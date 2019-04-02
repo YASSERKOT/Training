@@ -14,6 +14,8 @@ class Post(models.Model):
 		self.save()
 	def __str__(self):
 		return self.title
+	def approved_comments(self):
+		return self.comments.filter(approved_comment=True)
 
 class Comment(models.Model):
 	post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
@@ -26,5 +28,9 @@ class Comment(models.Model):
 		self.approved_comment = True
 		self.save()
 
+	def desapprove(self):
+		self.approved_comment = False
+		self.save()
+	
 	def __str__(self):
 		return self.text
