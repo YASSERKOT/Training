@@ -115,7 +115,7 @@ def send_feedback(request):
 		form = FeedbackForm(request.POST)
 		if form.is_valid():
 			name = form.cleaned_data['name']
-			email = form.clean_sender()
+			email = form.clean()
 			subject = form.cleaned_data['subject']
 			feedback = form.cleaned_data['feedback']
 			cc_myself = form.cleaned_data['cc_myself']
@@ -123,6 +123,7 @@ def send_feedback(request):
 			recepients = ['yasserkotrsi@softcatalyst.com']
 			if cc_myself:
 				recepients.append(email)
+			send_mail(subject, feedback, email, recepients, fail_silently=False)	
 			return redirect('thanks_page')
 	else:
 		form = FeedbackForm()
