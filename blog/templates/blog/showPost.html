@@ -19,6 +19,17 @@
         {% endif %}
         <h2>{{ post.title }}</h2>
         <p>{{ post.text | linebreaks }}</p>
+        <div class="img-section">
+            {% if post.postimage_set.all %}
+                <strong>Post Images :</strong>
+                {% for item in post.postimage_set.all %}
+                <img src="{{item.image.url}}" class="post-img" alt="{{post.title}}">
+                {% endfor %}
+            {% endif %}
+        </div>
+        <a class="btn btn-default" href="{% url 'add_image_to_post' pk=post.pk %}">
+            <span class="glyphicon glyphicon-picture"></span>
+        </a>
     </div>
     <hr>
     <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add Comment</a>

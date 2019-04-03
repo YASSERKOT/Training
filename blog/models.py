@@ -34,3 +34,14 @@ class Comment(models.Model):
 	
 	def __str__(self):
 		return self.text
+
+class PostImage(models.Model):
+	post = models.ForeignKey('blog.Post', on_delete=models.DO_NOTHING)
+	image = models.ImageField(upload_to='blog/images/')
+	featured = models.BooleanField(default=False)
+	updated = models.DateTimeField(auto_now_add = False, auto_now=True)
+	thumbnail = models.BooleanField(default=False)
+	active = models.BooleanField(default=True)
+
+	def __str__(self):
+		return self.product.title

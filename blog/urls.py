@@ -11,10 +11,14 @@ urlpatterns = [
 	path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 	path('post/<int:pk>/remove', views.post_remove, name='post_remove'),
 	path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
+	path('post/<int:pk>/image/', views.add_image_to_post, name="add_image_to_post"),
 	path('comment/<int:pk>/remove/', views.remove_comment, name="remove_comment"),
 	path('comment/<int:pk>/approve/', views.approve_comment, name="approve_comment"),
 	path('comment/<int:pk>/desapprove/', views.desapprove_comment, name="desapprove_comment"),
 	
 	path('api/posts/', views.ListPostView.as_view(), name="api_post_list"),
 	path('api/post/<int:pk>/', views.SinglePostView.as_view(), name="api_post_detail"),
+	
+	path('contact/', views.send_feedback, name="send_feedback_email"),
+	path('contact/sent/', views.feedback_email_sent, name="thanks_page")
 ]

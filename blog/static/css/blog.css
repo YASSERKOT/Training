@@ -47,3 +47,10 @@ h1, h2, h3, h4 {
 .comment {
     margin: 20px 0px 20px 20px;
 }
+
+.thanks-dialog {
+    position: center;
+}
+.thanks-dialog P {
+        font-size: 24px;
+}

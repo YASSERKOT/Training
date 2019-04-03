@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, ImageUploadForm, FeedbackForm
 
 
 def posts_list(request):
@@ -91,6 +91,45 @@ def remove_comment(request, pk):
 	comment = get_object_or_404(Comment, pk=pk)
 	comment.delete()
 	return redirect('post_detail', pk=comment.post.pk)
+
+
+@login_required
+def add_image_to_post(request, pk):
+	post = get_object_or_404(Post, pk=pk)
+	if request.method == "POST":
+		form = ImageUploadForm(request.POST, request.FILES)
+		if form.is_valid():
+			image = form.save(commit=False)
+			image.post = post
+			image.save()
+			return redirect('post_detail', pk=post.pk)
+	else:
+		form = ImageUploadForm()
+	return render(request, 'blog/add_image_to_post.html', {'form': form})
+
+
+from django.core.mail import send_mail
+
+def send_feedback(request):
+	if request.method == "POST":
+		form = FeedbackForm(request.POST)
+		if form.is_valid():
+			name = form.cleaned_data['name']
+			email = form.cleaned_data['email']
+			subject = form.cleaned_data['subject']
+			feedback = form.cleaned_data['feedback']
+			cc_myself = form.cleaned_data['cc_myself']
+			
+			recepients = ['yasserkotrsi@softcatalyst.com']
+			if cc_myself:
+				recepients.append(mail)
+			return redirect('thanks_page')
+	else:
+		form = FeedbackForm()
+	return render(request, 'contact/send_feedback_email.html', {'form':form}) 
+
+def feedback_email_sent(request):
+	return render(request, 'contact/feedback_email_sent.html')
 
 
 from rest_framework import status
