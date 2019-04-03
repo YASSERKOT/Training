@@ -2,15 +2,25 @@
 {% load static %}
 
 {% block content %}
-
-	{% for post in posts %}
-	<div class="post">
-		<div class="date">
-			{{ post.created_date }}
-		</div>
-		<h2><a href="{% url 'post_detail' pk=post.pk %}"> {{ post.title }} </a></h2>
-		<p>{{ post.text | linebreaksbr }}</p>
-		<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>	
+	<div class="card-group">
+		{% for post in posts %}
+		<div class="card" style="width: 18rem;">
+			{% for item in post.postimage_set.all %}
+				{% if item.featured %}
+					<img class="card-img-top" src="{{item.image.url}}" alt="{{post.title}}">
+				{% endif %}
+			{% endfor %}
+			<div class="card-body">
+				<h5 class="card-title">{{ post.title }}</h5>
+				<p class="card-text">{{ post.text | linebreaksbr }}</p>
+				<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+				<a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-primary">Read More</a>
+			</div>
+			<div class="card-footer">
+				<small class="text-muted">{{ post.created_date }}</small>
+			</div>
+		</div>	
+		{% endfor %}
 	</div>
-	{% endfor %}
 {% endblock %}
+

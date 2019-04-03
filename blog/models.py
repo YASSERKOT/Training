@@ -44,4 +44,4 @@ class PostImage(models.Model):
 	active = models.BooleanField(default=True)
 
 	def __str__(self):
-		return self.product.title
+		return self.post.title

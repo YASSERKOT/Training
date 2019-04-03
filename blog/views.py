@@ -115,7 +115,7 @@ def send_feedback(request):
 		form = FeedbackForm(request.POST)
 		if form.is_valid():
 			name = form.cleaned_data['name']
-			email = form.clean()
+			email = form.cleaned_data['email']
 			subject = form.cleaned_data['subject']
 			feedback = form.cleaned_data['feedback']
 			cc_myself = form.cleaned_data['cc_myself']

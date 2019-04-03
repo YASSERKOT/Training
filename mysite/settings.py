@@ -134,4 +134,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'blog/static/media/')
 
 
 #Crispy forms template configuration 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
