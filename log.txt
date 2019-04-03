@@ -1,0 +1,54 @@
+commit 3ffff501a49b1e69926815e533c6e6067f61d0b9
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Wed Apr 3 13:15:45 2019 +0100
+
+    Adding contact form and functionality
+
+commit 21a4d9a452636f8f4d39fbf424f3d3b00af883c6
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Wed Apr 3 10:00:02 2019 +0100
+
+    Adding Drf CRUD Views
+
+commit d65b3493bbd914fa16016ec79db396a7b794d65e
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 17:38:31 2019 +0100
+
+    Integrating DRF in the project git add --all
+
+commit 0f97c8ff2e1dd85ecd7cea5bc38a2f37a9b0a15b
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 16:51:51 2019 +0100
+
+    Adding moderation on comments
+
+commit 1283cb2dd503980abf11341f40ddc54d8bf03d19
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 16:21:42 2019 +0100
+
+    Adding Comment model, view and functionalities
+
+commit 278c8402263f301a7b6137ccd1a6ab91b2c80164
+Merge: 7be5b22 a0fe9e3
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 14:57:18 2019 +0100
+
+    Adding security concerns to functionalities, login and logout
+
+commit 7be5b22b725daebe9e82cd5c1a0bf038196220ed
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 14:19:38 2019 +0100
+
+    Fixing some issues
+
+commit a0fe9e334b54ea74d6e12e7a46b451f51cd46877
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 14:14:15 2019 +0100
+
+    Adding remove and edit functionalities
+
+commit 3f0213eca11d24ffd3831279e93791ada766ef24
+Author: Yasser <yasserkotrsi@gmail.com>
+Date:   Tue Apr 2 12:07:08 2019 +0100
+
+    First Commit with already working blog

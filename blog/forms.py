@@ -22,3 +22,9 @@ class FeedbackForm(forms.Form):
     subject = forms.CharField(max_length=100)
     feedback = forms.CharField(widget=forms.Textarea)
     cc_myself = forms.BooleanField(required=False)
+    
+    def clean_sender(self):
+        data = self.cleaned_data['email']
+        if not data.split('@')[1] == "softcatalyst.com":
+            raise forms.ValidationError("Email is invalid. The email should be a softcatalyst email")
+        return data
