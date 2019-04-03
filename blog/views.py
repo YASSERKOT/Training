@@ -1,12 +1,11 @@
 from django.utils import timezone
+from rest_framework.response import Response
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
-from .serializers import PostSerializer
-from rest_framework import generics
 
 def posts_list(request):
 	posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('published_date')
@@ -94,19 +93,31 @@ def remove_comment(request, pk):
 	return redirect('post_detail', pk=comment.post.pk)
 
 
+from rest_framework import status
+from .serializers import PostSerializer
+from rest_framework.views import APIView
+
 #### REST FRAMEWORK API VIEWS:
-class ListPostView(generics.ListAPIView):
-	queryset = Post.objects.all()
-	serializer_class = PostSerializer
+class ListPostView(APIView):
+	def get(self, request):
+		posts = Post.objects.all()
+		serializer = PostSerializer(posts, many=True)
+		return Response(serializer.data)
+	def put(self, request):
+		serializer = PostSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors, 
+		status=status.HTTP_400_BAD_REQUEST)
 
-class SinglePostView(generics.RetrieveAPIView ):
-	queryset = Post.objects.filter()
-	serializer_class = PostSerializer
+class SinglePostView(APIView):
+	def get(self, request, pk):
+		post = get_object_or_404(Post, pk=pk)
+		serializer = PostSerializer(post)
+		return Response(serializer.data)
 
-class DestroyPostView(generics.DestroyAPIView):
-	#queryset = Post.objects.filter()
-	serializer_class = PostSerializer
-
-class AddPostView(generics.CreateAPIView):
-	queryset = Post.objects.all()
-	serializer_class = PostSerializer
+	def delete(self, request, pk):
+		post = get_object_or_404(Post, pk=pk)
+		post.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)		
