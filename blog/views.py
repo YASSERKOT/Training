@@ -6,15 +6,34 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm, ImageUploadForm, FeedbackForm
 
+from django.views import generic
+from django.urls import reverse
 
+"""
 def posts_list(request):
 	posts = Post.objects.filter(created_date__lte=timezone.now()).order_by('published_date')
 	return render(request, 'blog/mainPage.html', {'posts' : posts})
+"""
 
+class PostListView(generic.ListView):
+	template_name = 'blog/mainPage.html'
+	context_object_name = 'posts'
+	def get_queryset(self):
+		"""Return the lastest post published on the blog by the admin."""
+		return Post.objects.filter(created_date__lte=timezone.now()).order_by('published_date')
+
+"""
 def post_detail(request, pk):
 	post = get_object_or_404(Post, pk=pk)
 	return render(request, 'blog/showPost.html', {'post':post})
+"""
 
+class PostDetailView(generic.DetailView):
+	template_name = 'blog/showPost.html'
+	model = Post
+	context_object_name = 'post'
+
+"""
 @login_required
 def add_post(request):
 	if request.method == "POST":
@@ -27,7 +46,18 @@ def add_post(request):
 	else:
 		form = PostForm()
 	return render(request, 'blog/addPost.html', {'form': form})
+"""
 
+class PostCreateView(generic.edit.CreateView):
+	template_name = 'blog/addPost.html'
+	model = Post
+	form_class = PostForm
+	
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super(PostCreateView, self).form_valid(form)
+
+"""
 @login_required
 def post_edit(request, pk):
 	post = get_object_or_404(Post, pk=pk)
@@ -41,6 +71,24 @@ def post_edit(request, pk):
 	else:
 		form = PostForm(instance=post)
 	return render(request, 'blog/addPost.html', {'form': form})
+"""
+
+class PostUpdateView(generic.edit.UpdateView):
+	template_name = 'blog/addPost.html'
+	model = Post
+	form_class = PostForm
+
+
+"""
+@login_required
+def post_remove(request, pk):
+	post = get_object_or_404(Post, pk=pk)
+	post.delete()
+	return redirect('post_list')
+"""
+class PostDestroyView(generic.edit.DeleteView):
+#	template_name = 'blog/post_confirm_delete.html'
+	model = Post
 
 @login_required
 def post_draft_list(request):
@@ -53,11 +101,6 @@ def post_publish(request, pk):
 	post.publish()
 	return redirect('post_detail', pk=pk)
 
-@login_required
-def post_remove(request, pk):
-	post = get_object_or_404(Post, pk=pk)
-	post.delete()
-	return redirect('post_list')
 
 @login_required
 def add_comment_to_post(request, pk):
